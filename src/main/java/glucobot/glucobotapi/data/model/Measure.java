@@ -1,6 +1,9 @@
 package glucobot.glucobotapi.data.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,8 +23,35 @@ public class Measure {
     @Column(name = "glycemia", nullable = false)
     private int glycemia;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public int getInsulin() {
+        return insulin;
+    }
+
+    public void setInsulin(int insulin) {
+        this.insulin = insulin;
+    }
+
+    public int getGlycemia() {
+        return glycemia;
+    }
+
+    public void setGlycemia(int glycemia) {
+        this.glycemia = glycemia;
+    }
 }

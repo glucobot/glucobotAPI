@@ -1,19 +1,20 @@
 package glucobot.glucobotapi.controller;
 
+import glucobot.glucobotapi.data.model.Category;
 import glucobot.glucobotapi.data.model.Measure;
 import glucobot.glucobotapi.data.model.User;
 import glucobot.glucobotapi.data.repository.MeasureRepository;
+import glucobot.glucobotapi.dto.AddMeasureDto;
 import glucobot.glucobotapi.dto.MeasureDto;
 import glucobot.glucobotapi.dto.MeasuresDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +37,7 @@ public class MeasureController {
     }
 
     @GetMapping("")
+    @PreAuthorize("hasAuthority(" + Category.PATIENT + ")")
     public MeasuresDto getMeasures(Authentication authentication,
                                    @RequestParam(required = false)
                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -65,6 +67,16 @@ public class MeasureController {
 
         return new MeasuresDto(measureDtoList.size(), lastTimestamp, measureDtoList);
 
+    }
+
+    @PostMapping("")
+    @PreAuthorize("hasAuthority(" + Category.PATIENT + ")")
+    public void addMeasure(Authentication authentication, @RequestBody @Valid AddMeasureDto addMeasureDto) {
+        User user = (User) authentication.getPrincipal();
+
+        Measure measure = modelMapper.map(addMeasureDto, Measure.class);
+        measure.setUserId(user.getId());
+        measureRepository.save(measure);
     }
 
 }

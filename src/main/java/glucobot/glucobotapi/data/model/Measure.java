@@ -65,4 +65,9 @@ public class Measure {
     public void setGlycemia(int glycemia) {
         this.glycemia = glycemia;
     }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
 }

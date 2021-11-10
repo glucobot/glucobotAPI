@@ -20,12 +20,8 @@ public class LoginController {
     public UserWithCategoryDto login(Authentication authentication) {
 
         User user = (User) authentication.getPrincipal();
-        System.out.println(user.getCategory());
-        UserWithCategoryDto dto = modelMapper.map(user, UserWithCategoryDto.class);
 
-        System.out.println(dto.getCategory());
-
-        return dto;
+        return modelMapper.map(user, UserWithCategoryDto.class);
     }
 
 }

@@ -1,9 +1,6 @@
 package glucobot.glucobotapi.data.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,6 +8,7 @@ import java.time.LocalDateTime;
 public class Measure {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -22,6 +20,19 @@ public class Measure {
 
     @Column(name = "glycemia", nullable = false)
     private int glycemia;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    public Measure() {
+    }
+
+    public Measure(LocalDateTime timestamp, int insulin, int glycemia, Long userId) {
+        this.timestamp = timestamp;
+        this.insulin = insulin;
+        this.glycemia = glycemia;
+        this.userId = userId;
+    }
 
     public Long getId() {
         return id;

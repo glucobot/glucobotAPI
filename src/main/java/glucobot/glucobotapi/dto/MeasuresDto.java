@@ -5,11 +5,13 @@ import java.util.List;
 
 public class MeasuresDto {
     private int count;
+    private LocalDateTime firstTimestamp;
     private LocalDateTime lastTimestamp;
     private List<MeasureDto> measures;
 
-    public MeasuresDto(int count, LocalDateTime lastTimestamp, List<MeasureDto> measures) {
+    public MeasuresDto(int count, LocalDateTime firstTimestamp, LocalDateTime lastTimestamp, List<MeasureDto> measures) {
         this.count = count;
+        this.firstTimestamp = firstTimestamp;
         this.lastTimestamp = lastTimestamp;
         this.measures = measures;
     }
@@ -20,6 +22,14 @@ public class MeasuresDto {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public LocalDateTime getFirstTimestamp() {
+        return firstTimestamp;
+    }
+
+    public void setFirstTimestamp(LocalDateTime firstTimestamp) {
+        this.firstTimestamp = firstTimestamp;
     }
 
     public LocalDateTime getLastTimestamp() {

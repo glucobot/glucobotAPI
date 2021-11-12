@@ -27,6 +27,8 @@ public class MeasureController {
     private static final int MAX_RESULTS = MAX_DAYS * 24 * 60;
 
     private static final LocalDateTime MIN_TIMESTAMP = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
+    private static final LocalDateTime MAX_TIMESTAMP = LocalDateTime.of(2500, 1, 1, 0, 0, 0);
+
 
     private final ModelMapper modelMapper;
     private final MeasureRepository measureRepository;
@@ -41,16 +43,25 @@ public class MeasureController {
     public MeasuresDto getMeasures(Authentication authentication,
                                    @RequestParam(required = false)
                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                           LocalDateTime timestamp) {
+                                           LocalDateTime maxTimestamp,
+                                   @RequestParam(required = false)
+                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                           LocalDateTime minTimestamp) {
 
-        if (timestamp == null)
-            timestamp = MIN_TIMESTAMP;
+        if (minTimestamp == null) {
+            minTimestamp = MIN_TIMESTAMP;
+        }
+
+        if (maxTimestamp == null) {
+            maxTimestamp = MAX_TIMESTAMP;
+        }
 
         User user = (User) authentication.getPrincipal();
 
         List<Measure> measures = measureRepository.getMeasuresForUser(
                 user.getId(),
-                timestamp,
+                minTimestamp,
+                maxTimestamp,
                 PageRequest.of(0, MAX_RESULTS)
         );
 
@@ -58,14 +69,16 @@ public class MeasureController {
                 .map(measure -> modelMapper.map(measure, MeasureDto.class))
                 .collect(Collectors.toList());
 
-        LocalDateTime lastTimestamp;
+        LocalDateTime firstTimestamp, lastTimestamp;
         if (measures.size() == 0) {
-            lastTimestamp = MIN_TIMESTAMP;
+            firstTimestamp = minTimestamp;
+            lastTimestamp = maxTimestamp;
         } else {
+            firstTimestamp = measures.get(measures.size() - 1).getTimestamp();
             lastTimestamp = measures.get(0).getTimestamp();
         }
 
-        return new MeasuresDto(measureDtoList.size(), lastTimestamp, measureDtoList);
+        return new MeasuresDto(measureDtoList.size(), firstTimestamp, lastTimestamp, measureDtoList);
 
     }
 

@@ -11,9 +11,10 @@ import java.util.List;
 
 public interface MeasureRepository extends CrudRepository<Measure, Long> {
 
-    @Query("select m from Measure m where m.userId = :user_id and m.timestamp > :timestamp order by m.timestamp desc")
+    @Query("select m from Measure m where m.userId = :user_id and m.timestamp > :minTimestamp and m.timestamp < :maxTimestamp order by m.timestamp desc")
     List<Measure> getMeasuresForUser(
             @Param("user_id") long userId,
-            @Param("timestamp") LocalDateTime timestamp,
+            @Param("minTimestamp") LocalDateTime minTimestamp,
+            @Param("maxTimestamp") LocalDateTime maxTimestamp,
             Pageable pageable);
 }

@@ -64,10 +64,6 @@ public class PatientController {
 
         MeasureCollection measureCollection = measureService.getMeasuresForUser(user, minTimestamp, maxTimestamp);
 
-        // List<MeasureDto> measureDtoList = measures.stream()
-        //        .map(measure -> modelMapper.map(measure, MeasureDto.class))
-        //        .collect(Collectors.toList());
-
         return modelMapper.map(measureCollection, MeasureCollectionDto.class);
 
     }

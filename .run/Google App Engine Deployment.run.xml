@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Google App Engine Deployment" type="gcp-app-engine-deploy" factoryName="Google App Engine Deployment" server-name="Google App Engine">
+    <deployment type="maven-build-source" name="glucobotAPI" project="glucobot" version="auto">
+      <settings cloudProjectName="glucobot" environment="APP_ENGINE_FLEX" googleUsername="carlrizk88@gmail.com" stagedArtifactName="" userSpecifiedArtifactPath="" version="" />
+    </deployment>
+    <method v="2">
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="package" />
+    </method>
+  </configuration>
+  <configuration default="false" name="Google App Engine Deployment" type="gcp-app-engine-deploy" factoryName="Google App Engine Deployment" server-name="Google App Engine">
+    <deployment type="maven-build-source" name="glucobotAPI" project="glucobot" version="auto">
+      <settings cloudProjectName="glucobot" environment="APP_ENGINE_FLEX" googleUsername="carlrizk88@gmail.com" moduleName="glucobotAPI" stagedArtifactName="" userSpecifiedArtifactPath="" version="" />
+    </deployment>
+    <method v="2">
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="package" />
+    </method>
+  </configuration>
+</component>

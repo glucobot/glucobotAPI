@@ -83,6 +83,7 @@ public class User implements UserDetails {
         this.category = category;
     }
 
+
     @Override
     public String getPassword() {
         return password;

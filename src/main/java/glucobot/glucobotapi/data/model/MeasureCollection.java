@@ -1,19 +1,20 @@
-package glucobot.glucobotapi.dto;
+package glucobot.glucobotapi.data.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class MeasuresDto {
+public class MeasureCollection {
+
     private int count;
     private LocalDateTime firstTimestamp;
     private LocalDateTime lastTimestamp;
-    private List<MeasureDto> measures;
+    private List<Measure> measures;
 
-    public MeasuresDto(int count, LocalDateTime firstTimestamp, LocalDateTime lastTimestamp, List<MeasureDto> measures) {
-        this.count = count;
+    public MeasureCollection(LocalDateTime firstTimestamp, LocalDateTime lastTimestamp, List<Measure> measures) {
         this.firstTimestamp = firstTimestamp;
         this.lastTimestamp = lastTimestamp;
         this.measures = measures;
+        this.count = measures.size();
     }
 
     public int getCount() {
@@ -40,11 +41,11 @@ public class MeasuresDto {
         this.lastTimestamp = lastTimestamp;
     }
 
-    public List<MeasureDto> getMeasures() {
+    public List<Measure> getMeasures() {
         return measures;
     }
 
-    public void setMeasures(List<MeasureDto> measures) {
+    public void setMeasures(List<Measure> measures) {
         this.measures = measures;
     }
 }

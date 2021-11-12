@@ -1,18 +1,15 @@
 package glucobot.glucobotapi.service;
 
 import glucobot.glucobotapi.data.model.Measure;
+import glucobot.glucobotapi.data.model.MeasureCollection;
 import glucobot.glucobotapi.data.model.User;
 import glucobot.glucobotapi.data.repository.MeasureRepository;
-import glucobot.glucobotapi.dto.AddMeasureDto;
-import glucobot.glucobotapi.dto.MeasureDto;
-import glucobot.glucobotapi.dto.MeasuresDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MeasureService {
@@ -32,7 +29,8 @@ public class MeasureService {
         this.modelMapper = modelMapper;
     }
 
-    public MeasuresDto getMeasuresForUser(User user, LocalDateTime minTimestamp, LocalDateTime maxTimestamp) {
+    public MeasureCollection getMeasuresForUser(User user, LocalDateTime minTimestamp, LocalDateTime maxTimestamp) {
+
         if (minTimestamp == null) {
             minTimestamp = MIN_TIMESTAMP;
         }
@@ -48,10 +46,6 @@ public class MeasureService {
                 PageRequest.of(0, MAX_RESULTS)
         );
 
-        List<MeasureDto> measureDtoList = measures.stream()
-                .map(measure -> modelMapper.map(measure, MeasureDto.class))
-                .collect(Collectors.toList());
-
         LocalDateTime firstTimestamp, lastTimestamp;
         if (measures.size() == 0) {
             firstTimestamp = minTimestamp;
@@ -61,13 +55,11 @@ public class MeasureService {
             lastTimestamp = measures.get(0).getTimestamp();
         }
 
-        return new MeasuresDto(measureDtoList.size(), firstTimestamp, lastTimestamp, measureDtoList);
+        return new MeasureCollection(firstTimestamp, lastTimestamp, measures);
     }
 
-    public void addMeasure(User user, AddMeasureDto addMeasureDto) {
-        Measure measure = modelMapper.map(addMeasureDto, Measure.class);
-        measure.setUserId(user.getId());
-        measureRepository.save(measure);
+    public void addMeasures(List<Measure> measures) {
+        measureRepository.saveAll(measures);
     }
 
 }

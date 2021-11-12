@@ -4,7 +4,7 @@ import glucobot.glucobotapi.data.model.Category;
 import glucobot.glucobotapi.data.model.Measure;
 import glucobot.glucobotapi.data.model.MeasureCollection;
 import glucobot.glucobotapi.data.model.User;
-import glucobot.glucobotapi.dto.AddMeasureDto;
+import glucobot.glucobotapi.dto.AddMeasuresDto;
 import glucobot.glucobotapi.dto.MeasureCollectionDto;
 import glucobot.glucobotapi.service.MeasureService;
 import org.modelmapper.ModelMapper;
@@ -55,10 +55,10 @@ public class MeasureController {
 
     @PostMapping("")
     @PreAuthorize("hasAuthority(" + Category.PATIENT + ")")
-    public void addMeasure(Authentication authentication, @RequestBody @Valid List<AddMeasureDto> addMeasureDto) {
+    public void addMeasure(Authentication authentication, @RequestBody @Valid AddMeasuresDto addMeasuresDto) {
         User user = (User) authentication.getPrincipal();
 
-        List<Measure> measures = addMeasureDto.stream()
+        List<Measure> measures = addMeasuresDto.getMeasures().stream()
                 .map(measureDto -> {
                     Measure measure = modelMapper.map(measureDto, Measure.class);
                     measure.setUserId(user.getId());

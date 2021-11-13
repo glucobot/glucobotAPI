@@ -49,7 +49,7 @@ public class MeasureService {
         LocalDateTime firstTimestamp, lastTimestamp;
         if (measures.size() == 0) {
             firstTimestamp = minTimestamp;
-            lastTimestamp = maxTimestamp;
+            lastTimestamp = firstTimestamp;
         } else {
             firstTimestamp = measures.get(measures.size() - 1).getTimestamp();
             lastTimestamp = measures.get(0).getTimestamp();
